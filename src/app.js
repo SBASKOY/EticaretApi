@@ -8,9 +8,6 @@ const { UserRouter, CategoryRouter, ProductRouter, BasketRouter } = require("./r
 dotenv.config();
 
 const PORT = process.env.PORT || process.env.APP_PORT;
-
-
-
 dbLoaders();
 events();
 const app = express();
