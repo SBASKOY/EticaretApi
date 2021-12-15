@@ -9,7 +9,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || process.env.APP_PORT;
 dbLoaders();
-events();
+// events();
 const app = express();
 
 app.use(express.json());
