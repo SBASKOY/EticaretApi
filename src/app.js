@@ -9,7 +9,7 @@ dotenv.config();
 
 const PORT = process.env.APP_PORT || 5000;
 
-dbLoaders();
+//dbLoaders();
 events();
 const app = express();
 
