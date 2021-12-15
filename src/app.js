@@ -7,7 +7,7 @@ const events=require("./scripts/events/index");
 const { UserRouter, CategoryRouter, ProductRouter, BasketRouter } = require("./routers/index");
 dotenv.config();
 
-const PORT = process.env.APP_PORT || 5000;
+const PORT = process.env.PORT || process.env.APP_PORT;
 
 //dbLoaders();
 events();
