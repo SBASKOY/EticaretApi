@@ -3,11 +3,13 @@ const express = require("express");
 const dotenv = require("dotenv");
 
 const dbLoaders = require("./loaders/index");
-const events=require("./scripts/events/index");
+const events = require("./scripts/events/index");
 const { UserRouter, CategoryRouter, ProductRouter, BasketRouter } = require("./routers/index");
 dotenv.config();
 
 const PORT = process.env.PORT || process.env.APP_PORT;
+
+console.log(process.env.PUBLİSH);
 
 dbLoaders();
 events();
