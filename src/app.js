@@ -9,7 +9,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || process.env.APP_PORT;
 
-console.log(process.env.PUBLİSH);
+
 
 dbLoaders();
 events();
