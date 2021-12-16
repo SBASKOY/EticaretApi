@@ -1,42 +1,24 @@
 
-const Basket = require("../Models/Basket");
+const BasketModel = require("../Models/Basket");
 
+const BaseService= require("./BaseService");
 
-const basketPopulate = {
-    path: "product_id"
-}
-
-const getBaskets = (id) => {
-    if (id) {
-        return Basket.findById(id).populate(basketPopulate);
+class Basket extends BaseService {
+    constructor(){
+        super(BasketModel);
+        this.basketPopulate = {
+            path: "product_id"
+        }
     }
-    return Basket.find({}).populate(basketPopulate);
-}
-const getBasketUser = (user) => {
-    return Basket.find({
-        user_id: user
-    }).populate(basketPopulate);
+    get(id) {
+        if (id) {
+            return BasketModel.findById(id).populate(this.basketPopulate)
+        }
+        return BasketModel.find({}).populate(this.basketPopulate)
+    }
+    findWhere(where) {
+        return BasketModel.find(where).populate(this.basketPopulate)
+    }
 }
 
-const findOne = (where) => {
-    return Basket.findOne(where);
-}
-
-const saveBasket = (basket) => {
-
-    return new Basket(basket).save();
-}
-const updateBasket = (id, basket) => {
-    return Basket.findByIdAndUpdate(id, basket, { new: true });
-}
-const deleteBasket = (id) => {
-    return Basket.findByIdAndDelete(id);
-}
-module.exports = {
-    saveBasket,
-    updateBasket,
-    getBaskets,
-    deleteBasket,
-    getBasketUser,
-    findOne
-}
+module.exports = Basket;

@@ -1,30 +1,28 @@
 
 class BaseService {
-    constructor(_model) {
-        this.Model = _model;
+    constructor(model, populate) {
+        this.Model = model;
+
     }
     get(id) {
         if (id) {
-            return this.Model.findById(id).populate(basketPopulate);
+            return this.Model.findById(id)
         }
-        return this.Model.find({}).populate(basketPopulate);
+        return this.Model.find({})
     }
-    save(data) {
-        return new this.Model(data).save()
-    }
-    findWhere(where) {
-        return this.Model.find(where);
-    }
-    findOne(where) {
-        return this.Model.findOne(where);
-    }
-    delete(id) {
-        return this.Model.findByIdAndDelete(id);
-    }
-    updateWithWhere(where, data) {
-        return this.Model.findOneAndUpdate(where, data, { new: true });
-    }
-    updateWitID (id, data) {
-        return this.Model.findByIdAndUpdate(id, data, { new: true });
-    }
+    findById = (id) => this.Model.findById(id);
+
+    save = (data) => new this.Model(data).save()
+
+    findWhere = (where) => this.Model.find(where);
+
+    findOne = (where) => this.Model.findOne(where);
+
+    delete = (id) => this.Model.findByIdAndDelete(id);
+
+    updateWithWhere = (where, data) => this.Model.findOneAndUpdate(where, data, { new: true });
+
+    updateWithID = (id, data) => this.Model.findByIdAndUpdate(id, data, { new: true });
+
 }
+module.exports = BaseService;

@@ -1,9 +1,9 @@
 
-const { saveBasket, updateBasket, getBaskets, deleteBasket, getBasketUser, findOne } = require("../services/Basket");
-
+const Basket = require("../services/Basket");
+const basketService = new Basket();
 const index = (req, res) => {
     var id = req.params.id;
-    getBaskets(id).then(response => {
+    basketService.get(id).then(response => {
         if (!response) {
             res.status(404).send({
                 message: "Basket not found"
@@ -16,12 +16,13 @@ const index = (req, res) => {
 
 const create = (req, res) => {
     req.body.user_id = req.user._doc;
-    findOne({
+    basketService.findOne({
         product_id: req.body.product_id,
         user_id: req.body.user_id
     }).then(basket => {
+        
         if (!basket) {
-            return saveBasket(req.body).then(response => res.status(200).send(response))
+            return basketService.save(req.body).then(response => res.status(200).send(response))
                 .catch(err => res.status(500).send(err));
         }
         basket.quantity = req.body.quantity;
@@ -33,9 +34,9 @@ const create = (req, res) => {
 const update = (req, res) => {
     var id = req.params?.id;
     req.body.user_id = req.user._doc;
-    updateBasket(id, req.body).then(response =>{
-        if(!response){
-            return res.status(404).send({message:"Basket not found"});
+    basketService.updateWithID(id, req.body).then(response => {
+        if (!response) {
+            return res.status(404).send({ message: "Basket not found" });
         }
         res.status(200).send(response)
     })
@@ -43,15 +44,15 @@ const update = (req, res) => {
 }
 const remove = (req, res) => {
     var id = req.params?.id;
-    deleteBasket(id).then(response => res.status(200).send({
+    basketService.delete(id).then(response => res.status(200).send({
         message: "Basket deleted.."
     }))
         .catch(err => res.status(500).send(err));
 }
 const userBasket = (req, res) => {
-
-
-    getBasketUser(req.user._doc).then(response => res.status(200).send(response))
+    basketService.findWhere({
+        user_id: req.user._doc
+    }).then(response => res.status(200).send(response))
         .catch(err => res.status(500).send(err));
 }
 

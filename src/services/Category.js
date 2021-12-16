@@ -1,6 +1,6 @@
 
-const Category = require("../Models/Category");
-
+const CategoryModel = require("../Models/Category");
+const BaseService = require("./BaseService");
 const populateCategory = {
     path: "sub_categorys",
     populate: {
@@ -25,29 +25,16 @@ const populateCategory = {
         }
     }
 };
-const getCategorys = (id) => {
-    if (id) {
-        return Category.findById(id).populate(populateCategory);
+class Category extends BaseService {
+    constructor(){
+        super(CategoryModel);
     }
-    return Category.find({}).populate(populateCategory);
+    get(id) {
+        if (id) {
+            return CategoryModel.findById(id).populate(populateCategory);
+        }
+        return CategoryModel.find({}).populate(populateCategory);
+    }
 }
 
-const findOne = (id) => {
-    return Category.findById(id);
-}
-const saveCategory = (category) => {
-    return new Category(category).save();
-}
-const updateCategory = (id, category) => {
-    return Category.findByIdAndUpdate(id, category, { new: true });
-}
-const deleteCategory = (id) => {
-    return Category.findByIdAndDelete(id);
-}
-module.exports = {
-    saveCategory,
-    updateCategory,
-    getCategorys,
-    deleteCategory,
-    findOne
-}
+module.exports = Category;

@@ -8,11 +8,18 @@ const { UserRouter, CategoryRouter, ProductRouter, BasketRouter } = require("./r
 dotenv.config();
 
 const PORT = process.env.PORT || process.env.APP_PORT;
+
+var corsOptions = {
+    origin: '*',
+   
+}
+
 dbLoaders();
 events();
 const app = express();
 
-app.use(express.json());
+app.use(express.json(corsOptions));
+app.use(cors());
 app.get("/", (req, res) => {
     res.status(200).send("Project index");
 })

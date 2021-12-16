@@ -2,9 +2,10 @@ const randStr = require('randomstring');
 const { saveUser, updateUser, getUsers, deleteUser, findOne, modify } = require("../services/User");
 const { passwordToHash, generateAccesToken, generateRefreshToken } = require("../utils/helper");
 const eventEmitter = require("../scripts/events/eventsEmitter");
-
+const User = require("../services/User");
+const userService = new User();
 const index = (req, res) => {
-    getUsers(req.params?.id).then(respose => {
+    userService.get(req.params?.id).then(respose => {
         res.status(200).send(respose);
     }).catch(err => {
         res.status(500).send(err);
@@ -13,7 +14,7 @@ const index = (req, res) => {
 
 const create = (req, res) => {
     req.body.password = passwordToHash(req.body.password);
-    saveUser(req.body).then(respose => {
+    userService.save(req.body).then(respose => {
         res.status(200).send(respose);
     }).catch(err => {
         res.status(500).send(err);
@@ -25,14 +26,14 @@ const update = (req, res) => {
     if (req.body?.password) {
         req.body.password = passwordToHash(req.body.password);
     }
-    updateUser(id, req.body).then(response => res.status(200).send(response))
+    userService.updateWithID(id, req.body).then(response => res.status(200).send(response))
         .catch(err => res.status(500).send(err));
 }
 
 
 const remove = (req, res) => {
     var id = req.params?.id;
-    deleteUser(id).then(respose => {
+    userService.delete(id).then(respose => {
         res.status(200).send(respose);
     }).catch(err => {
         res.status(500).send(err);
@@ -41,7 +42,7 @@ const remove = (req, res) => {
 
 const login = (req, res) => {
     req.body.password = passwordToHash(req.body.password);
-    findOne(req.body).then(user => {
+    userService.findOne(req.body).then(user => {
         if (user) {
             user = {
                 ...user.toObject(),
@@ -71,7 +72,7 @@ const login = (req, res) => {
 
 const resetPassword = (req, res) => {
     var password = randStr.generate(20);
-    modify({ email: req.body?.email }, { password: passwordToHash(password) }).then(updatedUser => {
+    userService.updateWithWhere({ email: req.body?.email }, { password: passwordToHash(password) }).then(updatedUser => {
         if (!updatedUser) return res.status(404).send({ error: "User not found" });
         eventEmitter.emit("send_email", {
             to: updatedUser.email,

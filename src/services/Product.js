@@ -1,31 +1,25 @@
 
-const Product=require("../Models/Product");
+const ProductModel=require("../Models/Product");
 
+const BaseService = require("./BaseService");
 
-const productPopulate={
-    path:"category_id"
+const productPopulate = {
+    path: "category_id"
 }
-
-const getProducts=(id)=>{
-    if(id){
-        return Product.findById(id).populate(productPopulate);
+class Product extends BaseService{
+    constructor(){
+        super(ProductModel);
     }
-    return Product.find({}).populate(productPopulate);
+    get(id) {
+        if (id) {
+            return ProductModel.findById(id).populate(productPopulate);
+        }
+        return ProductModel.find({}).populate(productPopulate);
+    }
 }
 
 
-const saveProduct=(product)=>{
-    return new Product(product).save();
-}
-const updateProduct = (id,product) => {
-    return Product.findByIdAndUpdate(id,product,{new:true});
-}
-const deleteProduct = (id) => {
-    return Product.findByIdAndDelete(id);
-}
-module.exports={
-    saveProduct,
-    updateProduct,
-    getProducts,
-    deleteProduct
-}
+
+
+
+module.exports = Product;
