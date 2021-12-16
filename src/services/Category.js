@@ -1,6 +1,8 @@
 
 const CategoryModel = require("../Models/Category");
 const BaseService = require("./BaseService");
+const fs=require("fs");
+
 const populateCategory = {
     path: "sub_categorys",
     populate: {
@@ -35,6 +37,7 @@ class Category extends BaseService {
         }
         return CategoryModel.find({}).populate(populateCategory);
     }
+ 
 }
 
 module.exports = Category;

@@ -6,6 +6,7 @@ const User = require("../services/User");
 const userService = new User();
 const index = (req, res) => {
     userService.get(req.params?.id).then(respose => {
+        if (!response) return res.status(404).send({error:"User not found"});
         res.status(200).send(respose);
     }).catch(err => {
         res.status(500).send(err);

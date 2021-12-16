@@ -3,6 +3,7 @@ const logger=require("../scripts/logger/Category");
 const CategorySchema = new Mongoose.Schema({
     name: String,
     order:Number,
+    image:String,
     sub_categorys:[
         {
             type:Mongoose.Types.ObjectId,

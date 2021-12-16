@@ -4,7 +4,10 @@ const productService = new Product();
 
 const index = (req, res) => {
     var id=req.params.id;
-    productService.get(id).then(response=>res.status(200).send(response))
+    productService.get(id).then(response=>{
+        if (!response) return res.status(404).send({error:"Product not found"});
+        res.status(200).send(response)
+    })
         .catch(err => res.status(500).send(err));
 }
 
