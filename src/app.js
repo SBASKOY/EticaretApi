@@ -18,8 +18,8 @@ dbLoaders();
 events();
 const app = express();
 
-app.use(express.json(corsOptions));
-app.use(cors());
+app.use(express.json());
+app.use(cors(corsOptions));
 app.get("/", (req, res) => {
     res.status(200).send("Project index");
 })
