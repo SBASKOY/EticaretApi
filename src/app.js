@@ -1,7 +1,7 @@
 
 const express = require("express");
 const dotenv = require("dotenv");
-
+var cors = require('cors')
 const dbLoaders = require("./loaders/index");
 const events = require("./scripts/events/index");
 const { UserRouter, CategoryRouter, ProductRouter, BasketRouter } = require("./routers/index");
