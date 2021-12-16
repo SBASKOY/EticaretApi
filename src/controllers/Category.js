@@ -1,6 +1,7 @@
 
 
 const path = require("path");
+
 const fs = require("fs");
 const Category = require("../services/Category");
 const categoryService = new Category();
@@ -65,6 +66,7 @@ const addCategoryImage = (req, res) => {
     }
     const ex = path.extname(req.files.category_image.name);
     const folderPath = path.join(__dirname, "../", "./images/category", `/${id}${ex}`)
+   
     req.files.category_image.mv(folderPath, (err) => {
         if (err) res.status(500).send(err);
         categoryService.updateWithID(id, { image: `/category/${id}${ex}` }).then(response => {
