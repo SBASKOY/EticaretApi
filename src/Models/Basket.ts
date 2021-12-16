@@ -1,4 +1,4 @@
-const Mongoose = require("mongoose");
+import Mongoose from "mongoose";
  // const logger=require("../scripts/logger/Category");
 const BasketSchema = new Mongoose.Schema({
     product_id: {
@@ -20,4 +20,4 @@ const BasketSchema = new Mongoose.Schema({
 //         message:doc
 //     })
 // })
-module.exports = Mongoose.model("basket", BasketSchema);
+export default Mongoose.model("basket", BasketSchema);

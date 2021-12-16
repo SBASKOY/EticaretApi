@@ -1,5 +1,5 @@
-const Mongoose = require("mongoose");
-const logger = require("../scripts/logger/Product");
+import Mongoose from "mongoose";
+import logger from "../scripts/logger/Product";
 const ProductSchema = new Mongoose.Schema({
     title: String,
     sub_title: String,
@@ -38,4 +38,4 @@ ProductSchema.once("save", (doc) => {
     })
 })
 
-module.exports = Mongoose.model("product", ProductSchema);
+export default  Mongoose.model("product", ProductSchema);

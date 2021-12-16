@@ -1,6 +1,11 @@
 
 
-const Joi = require("joi").extend(require('@joi/date'));;
+import BaseJoi from 'joi';
+
+import JoiDate from '@joi/date';
+
+
+const Joi = BaseJoi.extend(JoiDate);
 
 
 
@@ -13,7 +18,7 @@ const updateValidation = Joi.object({
     name: Joi.string().min(3),
     order: Joi.number(),
 })
-module.exports = {
+export  {
     createValidation,
     updateValidation,
 }

@@ -1,7 +1,7 @@
 
-const nodemailer = require("nodemailer");
-const eventEmitter = require("./eventsEmitter");
-module.exports = () => {
+import nodemailer from "nodemailer";
+import eventEmitter from "./eventsEmitter";
+export default () => {
     eventEmitter.on("send_email", (data) => {
         let transporter = nodemailer.createTransport({
             service: 'gmail',

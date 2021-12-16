@@ -1,5 +1,5 @@
 
-const Product=require("../Models/Product");
+import Product from "../Models/Product";
 
 
 const productPopulate={
@@ -23,7 +23,7 @@ const updateProduct = (id,product) => {
 const deleteProduct = (id) => {
     return Product.findByIdAndDelete(id);
 }
-module.exports={
+export {
     saveProduct,
     updateProduct,
     getProducts,

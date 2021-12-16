@@ -1,6 +1,11 @@
 
 
-const Joi = require("joi");
+import BaseJoi from 'joi';
+
+import JoiDate from '@joi/date';
+
+
+const Joi = BaseJoi.extend(JoiDate);
 
 const createValidation = Joi.object({
     title: Joi.string().required().min(3),
@@ -51,7 +56,7 @@ const updateValidation = Joi.object({
     ).min(1)
 
 })
-module.exports = {
+export {
     createValidation,
     updateValidation
 }

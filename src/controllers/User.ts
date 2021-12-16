@@ -1,9 +1,15 @@
-const randStr = require('randomstring');
-const { saveUser, updateUser, getUsers, deleteUser, findOne, modify } = require("../services/User");
-const { passwordToHash, generateAccesToken, generateRefreshToken } = require("../utils/helper");
+
+import randStr from 'randomstring';
+
+import { Request ,Response } from 'express';
+
+
+import { saveUser, updateUser, getUsers, deleteUser, findOne, modify } from "../services/User";
+
+import { passwordToHash, generateAccesToken, generateRefreshToken } from "../utils/helper";
 const eventEmitter = require("../scripts/events/eventsEmitter");
 
-const index = (req, res) => {
+const index = (req: Request, res: Response) => {
     getUsers(req.params?.id).then(respose => {
         res.status(200).send(respose);
     }).catch(err => {
@@ -11,16 +17,16 @@ const index = (req, res) => {
     })
 }
 
-const create = (req, res) => {
+const create = (req: Request, res:Response) => {
     req.body.password = passwordToHash(req.body.password);
-    saveUser(req.body).then(respose => {
+    saveUser(req.body).then((respose:any) => {
         res.status(200).send(respose);
-    }).catch(err => {
+    }).catch((err:any) => {
         res.status(500).send(err);
     })
 }
 
-const update = (req, res) => {
+const update = (req: Request, res: Response) => {
     var id = req.params?.id;
     if (req.body?.password) {
         req.body.password = passwordToHash(req.body.password);
@@ -30,7 +36,7 @@ const update = (req, res) => {
 }
 
 
-const remove = (req, res) => {
+const remove = (req: Request, res: Response) => {
     var id = req.params?.id;
     deleteUser(id).then(respose => {
         res.status(200).send(respose);
@@ -39,7 +45,7 @@ const remove = (req, res) => {
     })
 }
 
-const login = (req, res) => {
+const login = (req: Request, res: Response) => {
     req.body.password = passwordToHash(req.body.password);
     findOne(req.body).then(user => {
         if (user) {
@@ -69,7 +75,7 @@ const login = (req, res) => {
 }
 
 
-const resetPassword = (req, res) => {
+const resetPassword = (req: Request, res: Response) => {
     var password = randStr.generate(20);
     modify({ email: req.body?.email }, { password: passwordToHash(password) }).then(updatedUser => {
         if (!updatedUser) return res.status(404).send({ error: "User not found" });
@@ -84,7 +90,7 @@ const resetPassword = (req, res) => {
     }).catch(err => res.status(500).send(err));
 }
 
-module.exports = {
+export {
     index,
     create,
     update,

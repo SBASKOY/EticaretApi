@@ -1,6 +1,11 @@
 
 
-const Joi = require("joi").extend(require('@joi/date'));;
+import BaseJoi from 'joi';
+
+import JoiDate from '@joi/date';
+
+
+const Joi=BaseJoi.extend(JoiDate);
 
 const loginValidation = Joi.object({
     email: Joi.string().required().min(3),
@@ -33,7 +38,7 @@ const updateValidation = Joi.object({
     gender: Joi.string().min(2),
     birtday: Joi.date().raw()
 })
-module.exports = {
+export default  {
     createValidation,
     updateValidation,
     loginValidation,

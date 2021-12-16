@@ -1,5 +1,5 @@
 
-const Basket = require("../Models/Basket");
+import Basket from "../Models/Basket";
 
 
 const basketPopulate = {
@@ -32,7 +32,7 @@ const updateBasket = (id, basket) => {
 const deleteBasket = (id) => {
     return Basket.findByIdAndDelete(id);
 }
-module.exports = {
+export {
     saveBasket,
     updateBasket,
     getBaskets,

@@ -1,10 +1,10 @@
 
-const express = require("express");
-const validate=require("../middlewares/validate");
+import express from "express";
+import validate from "../middlewares/validate";
 
-const { index, create, update, remove, addSubCategory} = require("../controllers/Category");
-const { createValidation, updateValidation} =require("../validations/Category");
-const autheticateToken = require("../middlewares/authenticate");
+import { index, create, update, remove, addSubCategory} from "../controllers/Category";
+import { createValidation, updateValidation} from "../validations/Category";
+import autheticateToken from "../middlewares/authenticate";
 const router = express.Router();
 
 
@@ -17,4 +17,4 @@ router.delete("/:id", autheticateToken,remove);
 
 
 
-module.exports = router;
+export default router;

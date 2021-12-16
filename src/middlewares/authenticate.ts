@@ -1,8 +1,9 @@
 
 
-const JWT = require("jsonwebtoken");
-
-const autheticateToken = (req, res, next) => {
+//const JWT = require("jsonwebtoken");
+import { Request, Response } from 'express';
+import JWT from 'jsonwebtoken';
+const autheticateToken = (req: Request, res: Response, next:Function) => {
     var authHeader = req.headers.authorization;
     const token = authHeader?.split(' ')[1];
     if (token === null) {
@@ -16,8 +17,8 @@ const autheticateToken = (req, res, next) => {
                 error: "Bu işlem için lütfen giriş yapınız"
             });
         }
-        req.user = user;
+        req.body.user = user;
         next();
     });
 }
-module.exports = autheticateToken;
+export default autheticateToken;

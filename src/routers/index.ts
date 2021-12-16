@@ -1,11 +1,9 @@
-const UserRouter = require("./User");
+import UserRouter from "./User";
 const CategoryRouter = require("./Category");
 const ProductRouter = require("./Product");
 const BasketRouter = require("./Basket");
 
-module.exports = {
+export {
     UserRouter,
-    CategoryRouter,
-    ProductRouter,
-    BasketRouter
+
 };
