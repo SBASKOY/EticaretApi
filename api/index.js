@@ -15,7 +15,6 @@ var corsOptions = {
     origin: '*',
 
 }
-
 dbLoaders();
 events();
 const app = express();
