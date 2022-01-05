@@ -6,7 +6,7 @@ const fileUpload = require("express-fileupload");
 var cors = require('cors')
 const dbLoaders = require("./loaders/index");
 const events = require("./scripts/events/index");
-const { UserRouter, CategoryRouter, ProductRouter, BasketRouter } = require("./routers/index");
+const { UserRouter, CategoryRouter, ProductRouter, BasketRouter,LogRouter } = require("./routers/index");
 dotenv.config();
 
 const PORT = process.env.PORT || process.env.APP_PORT;
@@ -35,5 +35,6 @@ app.listen(PORT, () => {
     app.use("/category", CategoryRouter);
     app.use("/product", ProductRouter);
     app.use("/basket", BasketRouter);
+    app.use("/log", LogRouter);
     console.log(`app runnint port ${PORT}`)
 })
