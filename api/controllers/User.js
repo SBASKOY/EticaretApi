@@ -4,44 +4,48 @@ const { passwordToHash, generateAccesToken, generateRefreshToken } = require("..
 const eventEmitter = require("../scripts/events/eventsEmitter");
 const User = require("../services/User");
 const userService = new User();
-const index = (req, res) => {
+const ApiError=require("../errors/apiError");
+const index = (req, res,next) => {
     userService.get(req.params?.id).then(respose => {
-        if (!response) return res.status(404).send({error:"User not found"});
+        if (!response) return next(new ApiError("User not found.",404))
         res.status(200).send(respose);
     }).catch(err => {
-        res.status(500).send(err);
-    })
+        next(new ApiError(err?.message));
+    });
 }
 
-const create = (req, res) => {
+const create = (req, res,next) => {
     req.body.password = passwordToHash(req.body.password);
     userService.save(req.body).then(respose => {
         res.status(200).send(respose);
     }).catch(err => {
-        res.status(500).send(err);
-    })
+        next(new ApiError(err?.message));
+    });
 }
 
-const update = (req, res) => {
+const update = (req, res,next) => {
     var id = req.params?.id;
     if (req.body?.password) {
         req.body.password = passwordToHash(req.body.password);
     }
-    userService.updateWithID(id, req.body).then(response => res.status(200).send(response))
-        .catch(err => res.status(500).send(err));
+    userService.updateWithID(id, req.body)
+    .then(response => res.status(200).send(response))
+    .catch(err => {
+        next(new ApiError(err?.message));
+    });
 }
 
 
-const remove = (req, res) => {
+const remove = (req, res,next) => {
     var id = req.params?.id;
     userService.delete(id).then(respose => {
         res.status(200).send(respose);
     }).catch(err => {
-        res.status(500).send(err);
-    })
+        next(new ApiError(err?.message));
+    });
 }
 
-const login = (req, res) => {
+const login = (req, res,next) => {
     req.body.password = passwordToHash(req.body.password);
     userService.findOne(req.body).then(user => {
         if (user) {
@@ -62,16 +66,14 @@ const login = (req, res) => {
             res.status(200).send(user);
             return;
         }
-        return res.status(401).send({
-            error: "Kullanıc adı veya şifre hatalı."
-        });
+        return next(new ApiError("email or password is not correct",401));
     }).catch(err => {
-        res.status(500).send(err);
-    })
+        next(new ApiError(err?.message));
+    });
 }
 
 
-const resetPassword = (req, res) => {
+const resetPassword = (req, res,next) => {
     var password = randStr.generate(20);
     userService.updateWithWhere({ email: req.body?.email }, { password: passwordToHash(password) }).then(updatedUser => {
         if (!updatedUser) return res.status(404).send({ error: "User not found" });
@@ -83,7 +85,9 @@ const resetPassword = (req, res) => {
         res.status(200).send({
             message: "Yeni şifreniz e-mail adresine gönderildi"
         });
-    }).catch(err => res.status(500).send(err));
+    }).catch(err => {
+        next(new ApiError(err?.message));
+    });
 }
 
 module.exports = {
