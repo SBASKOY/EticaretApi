@@ -21,10 +21,12 @@ const create = (req, res, next) => {
         product_id: req.body.product_id,
         user_id: req.body.user_id
     }).then(basket => {
-
         if (!basket) {
-            return basketService.save(req.body).then(response => res.status(200).send(response))
-                .catch(err => res.status(500).send(err));
+            return basketService.save(req.body)
+                .then(response => res.status(200).send(response))
+                .catch(err => {
+                    next(new ApiError(err?.message));
+                });
         }
         basket.quantity = req.body.quantity;
         basket.save().then(response => res.status(200).send(response))

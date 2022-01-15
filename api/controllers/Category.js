@@ -36,7 +36,7 @@ const remove = (req, res, next) => {
     var id = req.params?.id;
     categoryService.findById(id).then(category => {
 
-        if (!category) return res.status(404).send({ error: "Category not found." })
+        if (!category) return next(new ApiError("Category not found",404));
         // const folderPath = path.join(__dirname, "../", "./images", `${}`);
         category.sub_categorys.forEach(element => {
             console.log(element.image_id);
@@ -93,7 +93,6 @@ const addCategoryImage = (req, res, next) => {
             return res.status(404).send("category not found");
         }
         cloudinary.uploader.destroy(category.image_id, (err) => {
-
             cloudinary.uploader.upload(req.files.category_image.tempFilePath, (result) => {
                 if (result.public_id) {
                     return categoryService.updateWithID(id, {

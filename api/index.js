@@ -8,7 +8,7 @@ var cors = require('cors')
 const dbLoaders = require("./loaders/index");
 const events = require("./scripts/events/index");
 const errorHandler = require("./middlewares/errorHandler");
-const { UserRouter, CategoryRouter, ProductRouter, BasketRouter, LogRouter } = require("./routers/index");
+const { UserRouter, CategoryRouter, ProductRouter, BasketRouter, LogRouter, SliderRouter } = require("./routers/index");
 dotenv.config();
 
 const PORT = process.env.PORT || process.env.APP_PORT;
@@ -45,6 +45,7 @@ app.listen(PORT, () => {
     app.use("/product", ProductRouter);
     app.use("/basket", BasketRouter);
     app.use("/log", LogRouter);
+    app.use("/slider", SliderRouter);
     app.use(errorHandler);
     console.log(`app runnint port ${PORT}`)
 })
