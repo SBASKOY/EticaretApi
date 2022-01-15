@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get("/",index);
 router.get("/:id",idChecker,index);
-router.post("/", autheticateToken,idChecker,validate(createValidation), create);
+router.post("/", autheticateToken,validate(createValidation), create);
 router.patch("/:id", autheticateToken,idChecker,validate(updateValidation),update);
 router.delete("/:id", autheticateToken,idChecker,remove);
 

@@ -15,7 +15,6 @@ const PORT = process.env.PORT || process.env.APP_PORT;
 
 var corsOptions = {
     origin: '*',
-
 }
 dbLoaders();
 events();
@@ -35,6 +34,7 @@ app.use(fileUpload({
     useTempFiles: true,
     tempFileDir: '/tmp/'
 }));
+
 app.get("/", (req, res) => {
     res.status(200).send("Project index");
 })
